@@ -7,6 +7,20 @@ import time
 import socket
 from pathlib import Path
 from optimizer import solve_plan
+# app.py (başına ekleyebilirsin)
+import qrcode
+from io import BytesIO
+
+# URL'ini otomatik yakalayabilir ya da sabitleyebilirsin
+url = "https://blank-app-zgi8al7773.streamlit.app/"   # kendi Streamlit URL'in
+
+# QR üret
+qr = qrcode.make(url)
+buf = BytesIO()
+qr.save(buf, format="PNG")
+
+
+
 
 # ---------- App Config & Theme ----------
 st.set_page_config(
@@ -68,6 +82,9 @@ with st.sidebar:
     st.markdown("**Bağlantı İpucu**")
     st.code(app_url_hint(), language="bash")
     st.caption("Bu adresi QR'a dönüştürüp paylaşabilirsiniz. (Örn. quickchart, goqr)")
+    # Sidebar'da göster
+    st.sidebar.image(buf.getvalue(), caption="Katılmak için okutun")
+    st.sidebar.code(url)
 
 st.markdown(f"<h1 style='margin:0 0 8px 0'>Karar Alanlar Değil, <span style='color:{PRIMARY}'>Kararı Tasarlayanlar</span> Çağı</h1>", unsafe_allow_html=True)
 st.caption("Katılımcılar QR ile rol alır, veri girer; sistem tahmin + optimizasyon ile **kararı tasarlar**.")
